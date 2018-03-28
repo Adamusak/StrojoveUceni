@@ -114,7 +114,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
 			transition.play();
 			drawer.toggle();
 			/* Zobrazení v textarea */
-			vystup.appendText("\n\n-------Nápověda-------\n Tato funkce zatím není podporována\n");
+			//vystup.appendText("\n\n-------Nápověda-------\n Tato funkce zatím není podporována\n");
 			/* Zobrazení v html */
 			Stage stage = new Stage();
 			stage.setTitle("Nápověda");
@@ -137,11 +137,11 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	}
 
 	private void ZmenaCSS() throws IOException {
-		/*String css = Application.class.getResource("css/scene2.css").toExternalForm();
+		String css = Main.class.getResource("css/scene2.css").toExternalForm();
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add(css);
-		scene.applyCss();*/
-		vystup.appendText("\n\n-------Změna CSS-------\n Tato funkce zatím není podporována\n");
+		scene.applyCss();
+		//vystup.appendText("\n\n-------Změna CSS-------\n Tato funkce zatím není podporována\n");
 	}
 
 
