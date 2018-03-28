@@ -20,7 +20,7 @@
 
 <GridPane fx:id="scene" hgap="10.0" minHeight="300.0" minWidth="300.0" prefHeight="720.0" prefWidth="1100.0" stylesheets="@css/scene.css" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StrojoveUceni.StrojoveUceniController">
 	<columnConstraints>
-		<ColumnConstraints hgrow="ALWAYS" maxWidth="1920.0" minWidth="700.0" prefWidth="1100.0" />
+		<ColumnConstraints hgrow="ALWAYS" maxWidth="1920.0" minWidth="700.0" prefWidth="1000.0" />
 	</columnConstraints>
 	<rowConstraints>
 		<RowConstraints maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="60.0" valignment="TOP" vgrow="NEVER" />
@@ -131,7 +131,7 @@
 				<Insets />
 			</GridPane.margin>
 		</JFXMasonryPane>
-      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+      <HBox prefHeight="100.0" prefWidth="1100.0" GridPane.rowIndex="2">
          <children>
       		<JFXTextField fx:id="vstupniSlovo" focusColor="#d23641" labelFloat="true" prefWidth="250.0" promptText="Slovo" unFocusColor="#484043">
       			<font>
@@ -151,17 +151,17 @@
             </JFXTextField>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1100.0" GridPane.rowIndex="3">
          <children>
             <JFXTextField fx:id="vyznamSlova" focusColor="#d23641" labelFloat="true" onAction="#odesliVyznam" prefWidth="800.0" promptText="Zadej význam slova" unFocusColor="#484043">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </HBox.margin>
             </JFXTextField>
-            <JFXButton prefHeight="25.0" prefWidth="200.0" text="Odeslat" onAction="#odesliVyznam">
+            <JFXButton onAction="#odesliVyznam" prefHeight="25.0" prefWidth="200.0" text="Odeslat">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
