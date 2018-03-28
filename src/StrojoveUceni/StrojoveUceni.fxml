@@ -133,7 +133,7 @@
 		</JFXMasonryPane>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-      		<JFXTextField fx:id="vstupniText" focusColor="#d23641" labelFloat="true" onAction="#odesliPrikaz" prefWidth="250.0" promptText="Slovo" unFocusColor="#484043">
+      		<JFXTextField fx:id="vstupniSlovo" focusColor="#d23641" labelFloat="true" prefWidth="250.0" promptText="Slovo" unFocusColor="#484043">
       			<font>
       				<Font name="Segoe UI Semibold" size="16.0" />
       			</font>
@@ -141,7 +141,7 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </HBox.margin>
       		</JFXTextField>
-            <JFXTextField fx:id="vstupniText2" focusColor="#d23641" labelFloat="true" onAction="#odesliPrikaz" prefWidth="800.0" promptText="Věta" unFocusColor="#484043">
+            <JFXTextField fx:id="vstupniVeta" focusColor="#d23641" labelFloat="true" prefWidth="800.0" promptText="Věta" unFocusColor="#484043">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
@@ -153,7 +153,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
          <children>
-            <JFXTextField fx:id="vstupniText1" focusColor="#d23641" labelFloat="true" onAction="#odesliPrikaz" prefWidth="800.0" promptText="Zadej význam slova" unFocusColor="#484043">
+            <JFXTextField fx:id="vyznamSlova" focusColor="#d23641" labelFloat="true" onAction="#odesliVyznam" prefWidth="800.0" promptText="Zadej význam slova" unFocusColor="#484043">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>
@@ -161,7 +161,7 @@
                   <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
                </HBox.margin>
             </JFXTextField>
-            <JFXButton prefHeight="25.0" prefWidth="200.0" text="Odeslat">
+            <JFXButton prefHeight="25.0" prefWidth="200.0" text="Odeslat" onAction="#odesliVyznam">
                <font>
                   <Font name="Segoe UI Semibold" size="16.0" />
                </font>

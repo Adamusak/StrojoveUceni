@@ -28,7 +28,11 @@ import javafx.stage.Stage;
 public class StrojoveUceniController extends GridPane implements Observer {
 
 	@FXML
-	private JFXTextField vstupniText;
+	private JFXTextField vstupniSlovo;
+	@FXML
+	private JFXTextField vstupniVeta;
+	@FXML
+	private JFXTextField vyznamSlova;
 	@FXML
 	private JFXTextArea vystup;
 	@FXML
@@ -54,17 +58,22 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	 * metoda čte příkaz ze vstupního textového pole a zpracuje ho
 	 */
 	@FXML
-	public void odesliPrikaz() {
-		/* Zpracovává příkaz zadaný do příkazové řádky */
+	public void odesliVyznam() {
+		/* Zpracovává slovo, které bylo zadané */
+		vystup.appendText("\nSlovo " + vstupniSlovo.getText() + " ve větě: " + vstupniVeta.getText() +" znamená " + vyznamSlova.getText() + "\n\n");
+		seznamSlov.getItems().addAll(vstupniSlovo.getText());
+		/* Nahraj význam do databáze */
+
 		
-		vystup.appendText("\n\n-------" + vstupniText.getText() + "-------\n");
-		vstupniText.setText("");
-		/* Při vstupu se ptá jestli neskončila hra */
-		if (Aplikace.konecAplikace()) {
-			vystup.appendText("\n\n-------Konec hry-------\n");
-			vstupniText.setDisable(true);
-			/* zobrazit nabídku na novou hru */
-		}
+		/* Vyčisti formulář */
+		vyznamSlova.setText("");
+		/* Možná časem přidat možnost vybrat z listview již odeslané slovo a upravit ho */
+		
+		/*Nahraj vstupní větu a slovo databáze a doplň jí do pole*/
+		vstupniVeta.setText("Další věta");
+		vstupniSlovo.setText("Další slovo");
+
+
 	}
 
 	
@@ -85,12 +94,14 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		drawer.open();
 		/* Nastav log */
 		vystup.setEditable(false);
+		/* Nastav editovatelnost vstupních polí */
+		//vstupniSlovo.setEditable(false);
+		//vstupniVeta.setEditable(false);
+
+		
+		
 		/* Naplň listview */
-		//this.hra = hra;
 		seznamSlov.getItems().addAll("Slovo1","Slovo2","Slovo3","Slovo4","Slovo5");
-		/* Nastav mapu */
-		//hra.getHerniPlan().addObserver(this);
-		// hra.getBatoh().addObserver(this);
 		/* Nastavení animace pro menu ikony */
 		HamburgerBasicCloseTransition transition = new HamburgerBasicCloseTransition(hamburger);
 		transition.setRate(-1);
@@ -119,7 +130,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
 			Stage stage = new Stage();
 			stage.setTitle("Nápověda");
 			WebView webview = new WebView();
-			webview.getEngine().load(Main.class.getResource("napoveda.html").toExternalForm());
+			webview.getEngine().load(Main.class.getResource("html/napoveda.html").toExternalForm());
 			stage.setScene(new Scene(webview, 720, 480));
 			stage.setMinWidth(720);
 			stage.setMinHeight(480);
