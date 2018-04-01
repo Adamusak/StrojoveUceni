@@ -1,9 +1,9 @@
 * {
    -fx-c1: #FFFFFF; /*bila*/
-   -fx-c2: #FFCC00; /*zlata*/
-   -fx-c3: #990033; /*cervena*/
-   -fx-c4: #CCCC99; /*seda*/
-   -fx-c5:  #666633; /*tmaveseda*/
+   -fx-c2: #C25B56; /*cerveno-hneda*/
+   -fx-c3: #96C0CE; /*tyrkysova*/
+   -fx-c4: #74828F; /*seda*/
+   -fx-c5:  #525564; /*tmave seda*/
 }
 
 #scene{
@@ -13,7 +13,7 @@
 /*Styl hlavičky i menu*/
 #TopRow{
 	-fx-background-color:-fx-c4;
-	-fx-font-size: 16px;
+	-fx-font-size: 16.0px;
 	-fx-font-family: 'Segoe UI Semibold';
 }
 
@@ -37,7 +37,7 @@
 #ComponentName{
 	-fx-background-color:-fx-c1;
 	-fx-font-family: 'Segoe UI Semibold';
-	-fx-font-size: 18px;
+	-fx-font-size: 18.0px;
 	-fx-text-fill: -fx-c5;
 
 }
@@ -61,8 +61,8 @@
     -fx-text-fill: -fx-c1;
     -fx-alignment: center;
     -fx-font-family: 'Segoe UI Semibold';
-	-fx-font-size: 16px;
-	-fx-padding: 2 2 2 2;
+	-fx-font-size: 16.0px;
+	-fx-padding: 2.0 2.0 2.0 2.0;
 }
 
 .list-cell:even { 
@@ -71,14 +71,16 @@
 
 .list-cell:hover {
     -fx-background-color: -fx-c2;
-    -fx-text-fill: -fx-c5;
+    -fx-text-fill: -fx-c1;
 }
 
 
 /*Kontextové menu */
+.context-menu {
+    -fx-padding: 5.0 5.0 5.0 5.0;
+}
 .context-menu, .menuitem {
     -fx-background-color: -fx-c4;
-    -fx-padding: 2 2 2 2;
     -fx-text-fill: -fx-c1;
 }
 
@@ -89,11 +91,11 @@
 .menu-item >.label {
 	-fx-background-color: -fx-c4;
     -fx-text-fill: -fx-c1;
-    -fx-font-size: 14px;
+    -fx-font-size: 14.0px;
 	-fx-font-family: 'Segoe UI Semibold';
 }
 
 .menu-item:focused > .label {
 	-fx-background-color: -fx-c2;
-    -fx-text-fill: -fx-c5;
+    -fx-text-fill: -fx-c1;
 }

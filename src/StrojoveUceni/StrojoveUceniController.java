@@ -7,6 +7,8 @@ import java.util.Observer;
 
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXListView;
@@ -16,11 +18,15 @@ import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 
 import StrojoveUceni.Logika.Aplikace;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -51,6 +57,8 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	JFXDrawer drawer;
 	@FXML
 	GridPane scene;
+	@FXML
+	StackPane dialog;
 
 	//private IAplikace hra;
 
@@ -77,9 +85,73 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	}
 
 	
+	@FXML
+	public void ZmenaSchema() {
+		/* Stisknutí tlačítka Změna vzhledu */
+		/* Převeď StackPane do popředí */
+		dialog.toFront();
+		/* Nastav nový dialog */
+		JFXDialogLayout obsah = new JFXDialogLayout();
+		obsah.setHeading(new Text("Výběr vzhledu"));
+		obsah.setBody(new Text("K výběru je z následujících následujících barevných schémat"));
+		JFXDialog vyber = new JFXDialog(dialog, obsah, JFXDialog.DialogTransition.CENTER);
+		/* Nastav tlačítko 1 */
+		JFXButton Schéma1 = new JFXButton("Červené");
+		Schéma1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				vyber.close();
+				String css = Main.class.getResource("css/scene.css").toExternalForm();
+				try {
+					ZmenaCSS(css);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		/* Nastav tlačítko 2 */
+		JFXButton Schéma2 = new JFXButton("Šedé");
+		Schéma2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				vyber.close();
+				String css = Main.class.getResource("css/scene2.css").toExternalForm();
+				try {
+					ZmenaCSS(css);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		/* Nastav tlačítko 3 */
+		JFXButton Zrušit = new JFXButton("Zrušit");
+		Zrušit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				vyber.close();
+			}
+		});
+		/* Nastav akce při otevření a zavření dialogu */
+		vyber.setOnDialogOpened(event -> {
+			/* Při otevření převeď StackPane do popředí */
+			dialog.toFront();
+		});
+		vyber.setOnDialogClosed(event -> {
+			/* Při zavření převeď StackPane do pozadí */
+			dialog.toBack();
+		});
+		/* Přidej tlačítka do dialogu */
+		obsah.setActions(Schéma1, Schéma2, Zrušit);
+		/* Zobraz dialog */
+		vyber.show();
+	}
 
 	
-
+	private void ZmenaCSS(String css) throws IOException {
+		scene.getStylesheets().clear();
+		scene.getStylesheets().add(css);
+		scene.applyCss();
+	}
 
 
 	/**
@@ -112,13 +184,10 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		});
 		/* Přidání funkcí tlačítkům */
 		ZmenaVzhledu.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
-			try {
-				ZmenaCSS();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-
-		});
+			transition.setRate(transition.getRate() * -1);
+			transition.play();
+			drawer.toggle();
+			});
 		Napoveda.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
 			/* Skrytí menu */
 			transition.setRate(transition.getRate() * -1);
@@ -145,14 +214,6 @@ public class StrojoveUceniController extends GridPane implements Observer {
 			Stage stage = (Stage) KonecAplikace.getScene().getWindow();
 			stage.close();
 		});
-	}
-
-	private void ZmenaCSS() throws IOException {
-		String css = Main.class.getResource("css/scene2.css").toExternalForm();
-		scene.getStylesheets().clear();
-		scene.getStylesheets().add(css);
-		scene.applyCss();
-		//vystup.appendText("\n\n-------Změna CSS-------\n Tato funkce zatím není podporována\n");
 	}
 
 
