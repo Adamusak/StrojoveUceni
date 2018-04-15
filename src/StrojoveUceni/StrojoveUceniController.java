@@ -173,7 +173,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		
 		
 		/* Naplň listview */
-		seznamSlov.getItems().addAll("Slovo1","Slovo2","Slovo3","Slovo4","Slovo5");
+		seznamSlov.getItems().addAll("dignissim","lacus","consectetur","euismod","dolor");
 		/* Nastavení animace pro menu ikony */
 		HamburgerBasicCloseTransition transition = new HamburgerBasicCloseTransition(hamburger);
 		transition.setRate(-1);
@@ -200,11 +200,11 @@ public class StrojoveUceniController extends GridPane implements Observer {
 			stage.setTitle("Nápověda");
 			WebView webview = new WebView();
 			webview.getEngine().load(Main.class.getResource("html/napoveda.html").toExternalForm());
-			stage.setScene(new Scene(webview, 720, 480));
+			stage.setScene(new Scene(webview, 720, 300));
 			stage.setMinWidth(720);
-			stage.setMinHeight(480);
+			stage.setMinHeight(300);
 			stage.setMaxWidth(720);
-			stage.setMaxHeight(480);
+			stage.setMaxHeight(300);
 			stage.show();
 			
 		});

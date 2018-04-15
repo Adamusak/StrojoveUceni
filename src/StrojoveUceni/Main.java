@@ -47,8 +47,8 @@ public class Main extends javafx.application.Application {
 		StrojoveUceniController controller = loader.getController();
 		controller.inicializuj(new Aplikace());
 		primaryStage.setTitle("Adventura");
-		primaryStage.setMinWidth(300);
-		primaryStage.setMinHeight(300);
+		//primaryStage.setMinWidth(300);
+		//primaryStage.setMinHeight(300);
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		root.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
