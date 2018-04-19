@@ -172,8 +172,11 @@ public class StrojoveUceniController extends GridPane implements Observer {
 
 		
 		
-		/* Naplň listview */
+		/* Naplň listview a významy slov - do produkce odstranit */
 		seznamSlov.getItems().addAll("dignissim","lacus","consectetur","euismod","dolor");
+		vystup.appendText("\nSlovo " + "consectetur" + " ve větě: Lorem ipsum dolor sit amet, consectetur adipiscing elit." + "" +" znamená " + "význam slova consectetur" + "\n\n");
+		vystup.appendText("\nSlovo " + "euismod" + " ve větě: Aenean risus erat, lobortis a odio vitae, eleifend euismod justo." + "" +" znamená " + "význam slova euismod" + "\n\n");
+		vystup.appendText("\nSlovo " + "dignissim" + " ve větě: Nunc fermentum est turpis, in dignissim nunc elementum in." + "" +" znamená " + "význam slova dignissim" + "\n\n");
 		/* Nastavení animace pro menu ikony */
 		HamburgerBasicCloseTransition transition = new HamburgerBasicCloseTransition(hamburger);
 		transition.setRate(-1);
