@@ -1,11 +1,9 @@
 package StrojoveUceni;
 
+
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-
-
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -15,7 +13,6 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
-
 import StrojoveUceni.Logika.Aplikace;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -80,10 +77,19 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		/*Nahraj vstupní větu a slovo databáze a doplň jí do pole*/
 		vstupniVeta.setText("Další věta");
 		vstupniSlovo.setText("Další slovo");
-
-
 	}
 
+	@FXML
+	public void Vyber() {
+		/* Zpracovává příkaz při kliknutí na kontextové menu vyber */
+		String co = seznamSlov.getSelectionModel().getSelectedItem();
+		/* Kontroluje zda, je označený item, který se má sebrat */
+		if (co == null) {
+			/*Není co vybrat*/
+		} else {
+			vyznamSlova.setText(co);
+		}
+	}
 	
 	@FXML
 	public void ZmenaSchema() {

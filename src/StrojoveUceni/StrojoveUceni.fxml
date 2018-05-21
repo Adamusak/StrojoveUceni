@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
@@ -19,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="scene" hgap="10.0" minHeight="300.0" minWidth="300.0" stylesheets="@css/scene.css" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StrojoveUceni.StrojoveUceniController">
+<GridPane fx:id="scene" hgap="10.0" minHeight="300.0" minWidth="300.0" stylesheets="@css/scene.css" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StrojoveUceni.StrojoveUceniController">
 	<columnConstraints>
 		<ColumnConstraints hgrow="ALWAYS" maxWidth="1920.0" minWidth="700.0" prefWidth="1000.0" />
 	</columnConstraints>
@@ -91,7 +97,7 @@
 
 				<VBox alignment="CENTER" prefHeight="250.0" prefWidth="250.0">
 					<children>
-						<Label id="ComponentName" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" text="Slova s uloženým významem" textAlignment="CENTER">
+						<Label id="ComponentName" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" text="Již uložené významy slova" textAlignment="CENTER">
 							<font>
 								<Font name="Segoe UI" size="16.0" />
 							</font>
@@ -100,7 +106,7 @@
 							<contextMenu>
 								<ContextMenu>
 									<items>
-										<MenuItem mnemonicParsing="false" text="Zobraz detail" />
+										<MenuItem mnemonicParsing="false" text="Vybrat" onAction="#Vyber"/>
 									</items>
 								</ContextMenu>
 							</contextMenu>
@@ -115,7 +121,7 @@
 				</VBox>
 				<VBox alignment="CENTER" prefHeight="250.0" prefWidth="500.0">
 					<children>
-						<JFXTextArea fx:id="vystup" editable="false" focusColor="#d23641" labelFloat="true" minHeight="240.0" minWidth="500.0" prefHeight="250.0" prefWidth="500.0" promptText="Záznam odpovědí" unFocusColor="#484043" VBox.vgrow="SOMETIMES">
+						<JFXTextArea fx:id="vystup" editable="false" focusColor="#d23641" labelFloat="true" minHeight="240.0" minWidth="500.0" prefHeight="250.0" prefWidth="500.0" promptText="Záznamy mých odpovědí" unFocusColor="#484043" VBox.vgrow="SOMETIMES">
 							<font>
 								<Font name="Segoe UI Semibold" size="12.0" />
 							</font>
