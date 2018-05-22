@@ -14,6 +14,10 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 import StrojoveUceni.Logika.Aplikace;
+import StrojoveUceni.Logika.Slovo;
+import StrojoveUceni.Logika.Uzivatel;
+import StrojoveUceni.Logika.Veta;
+import StrojoveUceni.Logika.ZaznamOdpovedi;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,6 +61,16 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	GridPane scene;
 	@FXML
 	StackPane dialog;
+	
+	private Slovo slovo = new Slovo();
+	private Uzivatel uzivatelDatabaze = new Uzivatel();
+	private Veta veta = new Veta();
+	private ZaznamOdpovedi zaznamOdpovedi = new ZaznamOdpovedi();
+	
+	private int pocetSlovVety = 0;
+	private int aktualniSlovo = 0;
+	private int pocetVet = 0;
+	private int aktualniVeta = 0;
 
 	//private IAplikace hra;
 	
@@ -81,6 +95,22 @@ public class StrojoveUceniController extends GridPane implements Observer {
                     "jdbc:mariadb://85.70.181.102:3306/StrojoveUceni", "StrojoveUceni", "StrojoveUceni");
             System.out.println("Connected database successfully...");
 
+            //STEP 4: Execute a query
+            System.out.println("Selecting first word from table...");
+            stmt = conn.createStatement();
+
+            String sql = "SELECT Slovo FROM `Slovo` where ID_Slovo = 0";
+
+            //stmt.executeUpdate(sql);
+            ResultSet rs = stmt.executeQuery(sql);
+            String test = "";
+            if(rs.next()) {
+                test = rs.getString(1);
+            }
+            System.out.println("Word selected...");
+            System.out.println(test);
+            
+            
             
         } catch (SQLException se) {
             //Handle errors for JDBC
