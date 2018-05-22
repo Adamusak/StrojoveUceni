@@ -107,6 +107,8 @@ public class StrojoveUceniController extends GridPane implements Observer {
         System.out.println("Goodbye!");
     }//end pripojDatabzi
 	
+	
+	
 	/**
 	 * metoda čte příkaz ze vstupního textového pole a zpracuje ho
 	 */

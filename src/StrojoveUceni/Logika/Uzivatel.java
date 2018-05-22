@@ -20,6 +20,5 @@ public class Uzivatel {
 	 */
 	private int ID_Uzivatel;
 
-	private Collection<ZaznamOdpovedi> zaznamOdpovedi;
 
 }

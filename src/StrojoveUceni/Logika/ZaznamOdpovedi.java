@@ -2,9 +2,9 @@ package StrojoveUceni.Logika;
 
 public class ZaznamOdpovedi {
 
-	private Slovo Slovo_ID;
+	private int Slovo_ID;
 
-	private Uzivatel Uzivatel_ID;
+	private int Uzivatel_ID;
 
 	/**
 	 * NOT NULL false
@@ -22,8 +22,7 @@ public class ZaznamOdpovedi {
 	 */
 	private int ID_Zaznam;
 
-	private Uzivatel uzivatel;
+	private int ID_Veta;
 
-	private Slovo slovo;
 
 }

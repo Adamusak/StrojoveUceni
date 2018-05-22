@@ -20,6 +20,5 @@ public class Veta {
 	 */
 	private int ID_Veta;
 
-	private Collection<Slovo> slovo;
 
 }

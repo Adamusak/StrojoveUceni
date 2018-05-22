@@ -22,8 +22,6 @@ public class Slovo {
 	 */
 	private int ID_Slovo;
 
-	private Collection<ZaznamOdpovedi> zaznamOdpovedi;
-
-	private Veta veta;
+	
 
 }
