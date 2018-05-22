@@ -26,10 +26,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import java.sql.*;
 
 
 public class StrojoveUceniController extends GridPane implements Observer {
-
+	
 	@FXML
 	private JFXTextField vstupniSlovo;
 	@FXML
@@ -58,7 +59,54 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	StackPane dialog;
 
 	//private IAplikace hra;
+	
+	// JDBC driver name and database URL
+    static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
+    static final String DB_URL = "jdbc:mariadb://85.70.181.102:3306/StrojoveUceni";
 
+    //  Database credentials
+    static final String USER = "StrojoveUceni";
+    static final String PASS = "StrojoveUceni";
+
+	public void pripojDatabzi() {
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("org.mariadb.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to a selected database...");
+            conn = DriverManager.getConnection(
+                    "jdbc:mariadb://85.70.181.102:3306/StrojoveUceni", "StrojoveUceni", "StrojoveUceni");
+            System.out.println("Connected database successfully...");
+
+            
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        System.out.println("Goodbye!");
+    }//end pripojDatabzi
+	
 	/**
 	 * metoda čte příkaz ze vstupního textového pole a zpracuje ho
 	 */

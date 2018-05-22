@@ -15,7 +15,7 @@ public class Slovo {
 	private String Slovo;
 
 	/**
-	 * NOT NULL true
+	 * NOT NULL true 
 	 * DomainName 
 	 * DatatypeName INT
 	 * DataTypeLength/Precision 
