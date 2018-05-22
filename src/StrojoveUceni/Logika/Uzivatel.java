@@ -19,6 +19,11 @@ public class Uzivatel {
 	 * DataTypeLength/Precision 
 	 */
 	private int ID_Uzivatel;
+	
+	public Uzivatel() {
+		this.Nick = "";
+		this.ID_Uzivatel = 0;
+	}
 
 
 }

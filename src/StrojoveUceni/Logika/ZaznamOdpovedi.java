@@ -24,5 +24,10 @@ public class ZaznamOdpovedi {
 
 	private int ID_Veta;
 
-
+	public ZaznamOdpovedi() {
+		this.Uzivatel_ID = 0;
+		this.Vyznam = "";
+		this.ID_Zaznam = 0;
+		this.ID_Veta = 0;
+	}
 }

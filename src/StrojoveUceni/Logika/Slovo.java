@@ -22,6 +22,10 @@ public class Slovo {
 	 */
 	private int ID_Slovo;
 
-	
+	public Slovo() {
+		this.Veta_ID = 0;
+		this.Slovo = "";
+		this.ID_Slovo = 0;
+	}
 
 }

@@ -20,5 +20,8 @@ public class Veta {
 	 */
 	private int ID_Veta;
 
-
+	public Veta() {
+		this.Veta = "";
+		this.ID_Veta = 0;
+	}
 }
