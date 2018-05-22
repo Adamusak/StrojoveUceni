@@ -25,5 +25,22 @@ public class Uzivatel {
 		this.ID_Uzivatel = 0;
 	}
 
+	public String getNick() {
+		return Nick;
+	}
+
+	public void setNick(String nick) {
+		Nick = nick;
+	}
+
+	public int getID_Uzivatel() {
+		return ID_Uzivatel;
+	}
+
+	public void setID_Uzivatel(int iD_Uzivatel) {
+		ID_Uzivatel = iD_Uzivatel;
+	}
+	
+	
 
 }
