@@ -71,8 +71,15 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	
 	private int pocetSlovVety = 0;
 	private int aktualniSlovo = 0;
+	private int aktualniSlovoOffSet = 0;
 	private int pocetVet = 0;
 	private int aktualniVeta = 0;
+	private int maxSlovo = 0;
+	private int maxVeta = 0;
+	private int maxZaznam = 0;
+	private int maxUzivatel = 0;
+	private int startIDSlovo = 0;
+	private int endIDSlovo = 0;
 	private List<String> vyznam = new ArrayList<String>();
 
 	//private IAplikace hra;
@@ -102,10 +109,19 @@ public class StrojoveUceniController extends GridPane implements Observer {
             System.out.println("Selecting first word from table...");
             stmt = conn.createStatement();
 
+            //dotazy pro nacteny slov, vet atd.
             String sql = "SELECT Slovo FROM `Slovo` where ID_Slovo = 0";
             String sql2 = "SELECT ID_Veta FROM `Slovo` where ID_Slovo = 0";
             String sql3 = "SELECT Veta FROM `Veta` where ID_Veta = " + slovo.getVeta_ID();
             String sql4 = "SELECT Vyznam FROM `ZaznamOdpovedi` WHERE ID_Slovo = 0";
+            
+            //dotazy pro nacteni MAX hodnot ID atd.
+            String sql5 = "SELECT MAX(ID_Slovo) FROM `Slovo`";
+            String sql6 = "SELECT MAX(ID_Uzivatel) FROM `Uzivatel`";
+            String sql7 = "SELECT MAX(ID_Veta) FROM `Veta`";
+            String sql8 = "SELECT MAX(ID_Zaznam) FROM `ZaznamOdpovedi`";
+            String sql9 = "SELECT COUNT(ID_Slovo) FROM `Slovo` WHERE ID_Veta = " + slovo.getVeta_ID();
+            String sql10 = "SELECT COUNT(ID_Veta) FROM `Veta`";
             slovo.setID_Slovo(0);
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -124,12 +140,42 @@ public class StrojoveUceniController extends GridPane implements Observer {
             }
             
             rs = stmt.executeQuery(sql4);
-            //List<String> vyznam = new ArrayList<String>();
             while(rs.next()) {
                 vyznam.add(rs.getString(1));
             }
             
+            rs = stmt.executeQuery(sql5);
+            if(rs.next()) {
+                maxSlovo = rs.getInt(1);
+            }
+            
+            rs = stmt.executeQuery(sql6);
+            if(rs.next()) {
+                maxUzivatel = rs.getInt(1);
+            }
+            
+            rs = stmt.executeQuery(sql7);
+            if(rs.next()) {
+                maxVeta = rs.getInt(1);
+            }
+            
+            rs = stmt.executeQuery(sql8);
+            if(rs.next()) {
+                maxZaznam = rs.getInt(1);
+            }
+            
+            rs = stmt.executeQuery(sql9);
+            if(rs.next()) {
+                pocetSlovVety = rs.getInt(1);
+            }
+            
+            rs = stmt.executeQuery(sql10);
+            if(rs.next()) {
+                pocetVet = rs.getInt(1);
+            }
+            
             veta.setID_Veta(slovo.getVeta_ID());
+            endIDSlovo = pocetSlovVety - 1;
             
             System.out.println("Word selected...");
             System.out.println(slovo.getSlovo());
@@ -139,6 +185,14 @@ public class StrojoveUceniController extends GridPane implements Observer {
             for (int i = 0; i <= vyznam.size() - 1; i++) {
             	System.out.println(vyznam.get(i));
             }
+            System.out.println("pocetSlovVety: " + pocetSlovVety);
+            System.out.println("aktualniSlovo: " + aktualniSlovo);
+            System.out.println("pocetVet: " + pocetVet);
+            System.out.println("aktualniVeta: " + aktualniVeta);
+            System.out.println("maxSlovo: " + maxSlovo);
+            System.out.println("maxVeta: " + maxVeta);
+            System.out.println("maxZaznam: " + maxZaznam);
+            System.out.println("maxUzivatel: " + maxUzivatel);
             
             
         } catch (SQLException se) {
@@ -166,6 +220,219 @@ public class StrojoveUceniController extends GridPane implements Observer {
         System.out.println("Goodbye!");
     }//end pripojDatabzi
 	
+	public void dalsi() {
+		//pripojeni k databazi
+		Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("org.mariadb.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to a selected database...");
+            conn = DriverManager.getConnection(
+                    "jdbc:mariadb://85.70.181.102:3306/StrojoveUceni", "StrojoveUceni", "StrojoveUceni");
+            System.out.println("Connected database successfully...");
+		
+        //bloky rozhodujici o tom, co se bude nacitat do pameti    
+		if (aktualniSlovoOffSet <= (pocetSlovVety -2) && aktualniSlovo <= (maxSlovo -1)) {
+			//Execute a query
+            stmt = conn.createStatement();
+            String sql = "SELECT Slovo FROM `Slovo` where ID_Slovo = " + (slovo.getID_Slovo() + 1);
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()) {
+                slovo.setSlovo(rs.getString(1));
+            }
+            
+            sql = "SELECT Vyznam FROM `ZaznamOdpovedi` WHERE ID_Slovo = " + (slovo.getID_Slovo() + 1);
+            rs = stmt.executeQuery(sql);
+            vyznam = new ArrayList<String>();
+            while(rs.next()) {
+                vyznam.add(rs.getString(1));
+            }
+            //vyznam = new ArrayList<String>();
+            seznamSlov.getItems().clear();
+            seznamSlov.getItems().addAll(vyznam);
+            
+            aktualniSlovo ++;
+            aktualniSlovoOffSet ++;
+            slovo.setID_Slovo(aktualniSlovo);
+            //zobrazeni slova ve frontendu
+            vstupniSlovo.setText(slovo.getSlovo());
+            vyznamSlova.setText("");
+            
+            System.out.println("pocetSlovVety: " + pocetSlovVety);
+            System.out.println("aktualniSlovo: " + aktualniSlovo);
+            System.out.println("aktualniSlovoOffSet: " + aktualniSlovoOffSet);
+            System.out.println("aktualniVeta: " + aktualniVeta);            
+		}
+		else {
+			if (aktualniVeta <= maxVeta -1) {
+				stmt = conn.createStatement();
+	            String sql = "SELECT Veta FROM `Veta` where ID_Veta = " + (veta.getID_Veta() + 1);
+	            ResultSet rs = stmt.executeQuery(sql);
+	            if(rs.next()) {
+	                veta.setVeta(rs.getString(1));
+	            }
+	            veta.setID_Veta(veta.getID_Veta() + 1);
+	            vstupniVeta.setText(veta.getVeta());
+	            aktualniVeta ++;
+	            
+	            aktualniSlovo++;
+	            aktualniSlovoOffSet = 0;
+	            slovo.setID_Slovo(aktualniSlovo);
+	            sql = "SELECT Slovo FROM `Slovo` where ID_Slovo = " + (slovo.getID_Slovo());
+	            rs = stmt.executeQuery(sql);
+	            if(rs.next()) {
+	                slovo.setSlovo(rs.getString(1));
+	            }
+	            sql = "SELECT ID_Veta FROM `Slovo` where ID_Slovo = " + (slovo.getID_Slovo());
+	            rs = stmt.executeQuery(sql);
+	            if(rs.next()) {
+	                slovo.setVeta_ID(rs.getInt(1));
+	            }
+	            vstupniSlovo.setText(slovo.getSlovo());
+	            
+	            sql = "SELECT COUNT(ID_Slovo) FROM `Slovo` WHERE ID_Veta = " + slovo.getVeta_ID();
+	            rs = stmt.executeQuery(sql);
+	            if(rs.next()) {
+	                pocetSlovVety = rs.getInt(1);
+	            }
+	            
+	            sql = "SELECT Vyznam FROM `ZaznamOdpovedi` WHERE ID_Slovo = " + (slovo.getID_Slovo());
+	            rs = stmt.executeQuery(sql);
+	            vyznam = new ArrayList<String>();
+	            while(rs.next()) {
+	                vyznam.add(rs.getString(1));
+	            }
+	            //vyznam = new ArrayList<String>();
+	            seznamSlov.getItems().clear();
+	            seznamSlov.getItems().addAll(vyznam);
+	            	            
+	            startIDSlovo = slovo.getID_Slovo();
+	            endIDSlovo = pocetSlovVety - 1;	
+	            vyznamSlova.setText("");
+	            
+	            System.out.println("pocetSlovVety: " + pocetSlovVety);
+	            System.out.println("aktualniSlovo: " + aktualniSlovo);	
+	            System.out.println("aktualniSlovoOffSet: " + aktualniSlovoOffSet);
+	            System.out.println("aktualniVeta: " + aktualniVeta);	            
+			}
+			else {
+				stmt = conn.createStatement();
+
+	            //dotazy pro nacteny slov, vet atd.
+	            String sql = "SELECT Slovo FROM `Slovo` where ID_Slovo = 0";
+	            String sql2 = "SELECT ID_Veta FROM `Slovo` where ID_Slovo = 0";
+	            String sql3 = "SELECT Veta FROM `Veta` where ID_Veta = 0";
+	            String sql4 = "SELECT Vyznam FROM `ZaznamOdpovedi` WHERE ID_Slovo = 0";
+	            
+	            //dotazy pro nacteni MAX hodnot ID atd.
+	            String sql5 = "SELECT MAX(ID_Slovo) FROM `Slovo`";
+	            String sql6 = "SELECT MAX(ID_Uzivatel) FROM `Uzivatel`";
+	            String sql7 = "SELECT MAX(ID_Veta) FROM `Veta`";
+	            String sql8 = "SELECT MAX(ID_Zaznam) FROM `ZaznamOdpovedi`";
+	            String sql9 = "SELECT COUNT(ID_Slovo) FROM `Slovo` WHERE ID_Veta = " + slovo.getVeta_ID();
+	            String sql10 = "SELECT COUNT(ID_Veta) FROM `Veta`";
+	            slovo.setID_Slovo(0);
+	            aktualniSlovo = 0;
+	            aktualniVeta = 0;
+	            startIDSlovo = 0;
+	            aktualniSlovoOffSet = 0;
+
+	            ResultSet rs = stmt.executeQuery(sql);
+	            if(rs.next()) {
+	                slovo.setSlovo(rs.getString(1));
+	            }
+	            
+	            rs = stmt.executeQuery(sql2);
+	            if(rs.next()) {
+	                slovo.setVeta_ID(rs.getInt(1));
+	            }
+	            
+	            rs = stmt.executeQuery(sql3);
+	            if(rs.next()) {
+	                veta.setVeta(rs.getString(1));
+	            }
+	            
+	            rs = stmt.executeQuery(sql4);
+	            vyznam = new ArrayList<String>();
+	            while(rs.next()) {
+	                vyznam.add(rs.getString(1));
+	            }
+	            //vyznam = new ArrayList<String>();
+	            seznamSlov.getItems().clear();
+	            seznamSlov.getItems().addAll(vyznam);
+	            
+	            rs = stmt.executeQuery(sql5);
+	            if(rs.next()) {
+	                maxSlovo = rs.getInt(1);
+	            }
+	            
+	            rs = stmt.executeQuery(sql6);
+	            if(rs.next()) {
+	                maxUzivatel = rs.getInt(1);
+	            }
+	            
+	            rs = stmt.executeQuery(sql7);
+	            if(rs.next()) {
+	                maxVeta = rs.getInt(1);
+	            }
+	            
+	            rs = stmt.executeQuery(sql8);
+	            if(rs.next()) {
+	                maxZaznam = rs.getInt(1);
+	            }
+	            
+	            rs = stmt.executeQuery(sql9);
+	            if(rs.next()) {
+	                pocetSlovVety = rs.getInt(1);
+	            }
+	            
+	            rs = stmt.executeQuery(sql10);
+	            if(rs.next()) {
+	                pocetVet = rs.getInt(1);
+	            }
+	            
+	            veta.setID_Veta(slovo.getVeta_ID());
+	            endIDSlovo = pocetSlovVety - 1;
+	            
+	            vstupniSlovo.setText(slovo.getSlovo());
+	            vstupniVeta.setText(veta.getVeta());
+	            vyznamSlova.setText("");
+	            
+	            System.out.println("pocetSlovVety: " + pocetSlovVety);
+	            System.out.println("aktualniSlovo: " + aktualniSlovo);	 
+	            System.out.println("aktualniSlovoOffSet: " + aktualniSlovoOffSet);
+	            System.out.println("aktualniVeta: " + aktualniVeta);	            
+			}
+		}
+		
+		//blok pro ukonceni pripojeni
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        System.out.println("Goodbye!");
+    }//end pripojDatabzi
 	
 	
 	/**
@@ -197,6 +464,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
 			/*Není co vybrat*/
 		} else {
 			vyznamSlova.setText(co);
+			this.dalsi();
 		}
 	}
 	
