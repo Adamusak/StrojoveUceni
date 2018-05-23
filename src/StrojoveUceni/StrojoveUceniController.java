@@ -2,6 +2,8 @@ package StrojoveUceni;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import com.jfoenix.controls.JFXButton;
@@ -71,6 +73,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	private int aktualniSlovo = 0;
 	private int pocetVet = 0;
 	private int aktualniVeta = 0;
+	private List<String> vyznam = new ArrayList<String>();
 
 	//private IAplikace hra;
 	
@@ -100,16 +103,42 @@ public class StrojoveUceniController extends GridPane implements Observer {
             stmt = conn.createStatement();
 
             String sql = "SELECT Slovo FROM `Slovo` where ID_Slovo = 0";
+            String sql2 = "SELECT ID_Veta FROM `Slovo` where ID_Slovo = 0";
+            String sql3 = "SELECT Veta FROM `Veta` where ID_Veta = " + slovo.getVeta_ID();
+            String sql4 = "SELECT Vyznam FROM `ZaznamOdpovedi` WHERE ID_Slovo = 0";
+            slovo.setID_Slovo(0);
 
-            //stmt.executeUpdate(sql);
             ResultSet rs = stmt.executeQuery(sql);
-            String test = "";
             if(rs.next()) {
-                test = rs.getString(1);
+                slovo.setSlovo(rs.getString(1));
             }
-            System.out.println("Word selected...");
-            System.out.println(test);
             
+            rs = stmt.executeQuery(sql2);
+            if(rs.next()) {
+                slovo.setVeta_ID(rs.getInt(1));
+            }
+            
+            rs = stmt.executeQuery(sql3);
+            if(rs.next()) {
+                veta.setVeta(rs.getString(1));
+            }
+            
+            rs = stmt.executeQuery(sql4);
+            //List<String> vyznam = new ArrayList<String>();
+            while(rs.next()) {
+                vyznam.add(rs.getString(1));
+            }
+            
+            veta.setID_Veta(slovo.getVeta_ID());
+            
+            System.out.println("Word selected...");
+            System.out.println(slovo.getSlovo());
+            System.out.println(slovo.getVeta_ID());
+            System.out.println(veta.getVeta());
+            System.out.println(veta.getID_Veta());
+            for (int i = 0; i <= vyznam.size() - 1; i++) {
+            	System.out.println(vyznam.get(i));
+            }
             
             
         } catch (SQLException se) {
@@ -248,6 +277,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	 *            spuštěné hry
 	 */
 	public void inicializuj(Aplikace aplikace) {
+		//nacteni prvniho slova, jeho vety a jeho vyznamu do objedktu
+		this.pripojDatabzi();
+		
 		/* Zavři menu */
 		drawer.open();
 		/* Nastav log */
@@ -259,10 +291,11 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		
 		
 		/* Naplň listview a významy slov - do produkce odstranit */
-		seznamSlov.getItems().addAll("dignissim","lacus","consectetur","euismod","dolor");
-		vystup.appendText("\nSlovo " + "consectetur" + " ve větě: Lorem ipsum dolor sit amet, consectetur adipiscing elit." + "" +" znamená " + "význam slova consectetur" + "\n\n");
-		vystup.appendText("\nSlovo " + "euismod" + " ve větě: Aenean risus erat, lobortis a odio vitae, eleifend euismod justo." + "" +" znamená " + "význam slova euismod" + "\n\n");
-		vystup.appendText("\nSlovo " + "dignissim" + " ve větě: Nunc fermentum est turpis, in dignissim nunc elementum in." + "" +" znamená " + "význam slova dignissim" + "\n\n");
+		//seznamSlov.getItems().addAll("dignissim","lacus","consectetur","euismod","dolor");
+		vstupniSlovo.setText(slovo.getSlovo());
+		vstupniVeta.setText(veta.getVeta());
+		seznamSlov.getItems().addAll(vyznam);
+		vystup.appendText("\nSlovo " + "'" + slovo.getSlovo() +"'" + " ve větě: '" + veta.getVeta() +"' znamená '" + vyznam.get(0) + "'\n\n");
 		/* Nastavení animace pro menu ikony */
 		HamburgerBasicCloseTransition transition = new HamburgerBasicCloseTransition(hamburger);
 		transition.setRate(-1);

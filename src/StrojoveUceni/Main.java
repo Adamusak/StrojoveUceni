@@ -67,7 +67,7 @@ public class Main extends javafx.application.Application {
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 		
-		controller.pripojDatabzi();
+		//controller.pripojDatabzi();
 	}
 }
 
