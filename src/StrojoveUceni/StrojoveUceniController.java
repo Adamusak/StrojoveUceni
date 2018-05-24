@@ -221,6 +221,10 @@ public class StrojoveUceniController extends GridPane implements Observer {
     }//end pripojDatabzi
 	
 	public void dalsi() {
+		//zadani textu zadaneho slova do historie prikazu
+		//vystup.appendText("\nSlovo " + vstupniSlovo.getText() + " ve větě: " + vstupniVeta.getText() +" znamená " + vyznamSlova.getText() + "\n\n");
+		vystup.appendText("\nSlovo " + "'" + vstupniSlovo.getText() +"'" + " ve větě: '" + vstupniVeta.getText() +"' znamená '" + vyznamSlova.getText() + "'\n\n");
+		
 		//pripojeni k databazi
 		Connection conn = null;
         Statement stmt = null;
@@ -434,14 +438,81 @@ public class StrojoveUceniController extends GridPane implements Observer {
         System.out.println("Goodbye!");
     }//end pripojDatabzi
 	
-	public boolean vyznamNeexistuje(String vstupniText) {
+	public boolean vyznamExistuje(String vstupniText) {
+		String testovaciVypis = "";
 		for (int i = 0; i <= vyznam.size() - 1; i++) {
-        	if (vyznam.get(i) == vstupniText) {
+			testovaciVypis = vyznam.get(i);
+			System.out.println("vyznam.get(i): " + vyznam.get(i));
+			System.out.println("vstupniText: " + vstupniText);
+			
+        	if (vyznam.get(i).equals(vstupniText)) {
+        		System.out.println("vyznam existuje");
+        		System.out.println("vyznam.get(i): " + vyznam.get(i));
+    			System.out.println("vstupniText: " + vstupniText);
         		return true;
         	}
         }
+		System.out.println("vyznam neexistuje");
+		System.out.println("vyznam.get(i): " + testovaciVypis);
+		System.out.println("vstupniText: " + vstupniText);
 		return false;
 	}
+	
+	public void ulozVyznam() {
+		Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("org.mariadb.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to a selected database...");
+            conn = DriverManager.getConnection(
+                    "jdbc:mariadb://85.70.181.102:3306/StrojoveUceni", "StrojoveUceni", "StrojoveUceni");
+            System.out.println("Connected database successfully...");
+            
+            //STEP 4: Execute a query
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO ZaznamOdpovedi (ID_Zaznam, ID_Uzivatel, ID_Slovo, ID_Veta, Vyznam) VALUES (" + (maxZaznam + 1) + ", " + maxUzivatel + ", " + (aktualniSlovo) + ", " + (aktualniVeta) + ", " + "'" + (vyznamSlova.getText() + "'") + ")";
+            System.out.println(sql);
+            stmt.executeQuery(sql);
+            
+            //inkrementace max hodnot
+            maxZaznam++;
+            
+            System.out.println("vyznam ulozen");
+            
+            //nacteni dalsiho slova/vety
+            //this.dalsi();
+            
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }// do nothing
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+        System.out.println("Goodbye!");
+        
+        //nacteni dalsiho slova/vety
+        this.dalsi();
+    }
+	
 	
 	
 	/**
@@ -449,19 +520,12 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	 */
 	@FXML
 	public void odesliVyznam() {
-		/* Zpracovává slovo, které bylo zadané */
-		vystup.appendText("\nSlovo " + vstupniSlovo.getText() + " ve větě: " + vstupniVeta.getText() +" znamená " + vyznamSlova.getText() + "\n\n");
-		seznamSlov.getItems().addAll(vstupniSlovo.getText());
-		/* Nahraj význam do databáze */
-
-		
-		/* Vyčisti formulář */
-		vyznamSlova.setText("");
-		/* Možná časem přidat možnost vybrat z listview již odeslané slovo a upravit ho */
-		
-		/*Nahraj vstupní větu a slovo databáze a doplň jí do pole*/
-		vstupniVeta.setText("Další věta");
-		vstupniSlovo.setText("Další slovo");
+		if (this.vyznamExistuje(vyznamSlova.getText())) {
+			this.dalsi();
+		}
+		else {
+			this.ulozVyznam();
+		}
 	}
 
 	@FXML
