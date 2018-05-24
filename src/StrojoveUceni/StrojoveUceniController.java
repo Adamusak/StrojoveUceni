@@ -434,6 +434,15 @@ public class StrojoveUceniController extends GridPane implements Observer {
         System.out.println("Goodbye!");
     }//end pripojDatabzi
 	
+	public boolean vyznamNeexistuje(String vstupniText) {
+		for (int i = 0; i <= vyznam.size() - 1; i++) {
+        	if (vyznam.get(i) == vstupniText) {
+        		return true;
+        	}
+        }
+		return false;
+	}
+	
 	
 	/**
 	 * metoda čte příkaz ze vstupního textového pole a zpracuje ho
