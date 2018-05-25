@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import org.hamcrest.core.IsNull;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -221,6 +224,10 @@ public class StrojoveUceniController extends GridPane implements Observer {
     }//end pripojDatabzi
 	
 	public void dalsi() {
+		if (vyznamSlova.getText() == null | vyznamSlova.getText().length() == 0) {
+			vystup.appendText("\nSlovo " + "'" + vstupniSlovo.getText() +"'" + " ve větě: '" + vstupniVeta.getText() +" bylo přeskočeno.\n\n");
+		}
+		else {
 		//zadani textu zadaneho slova do historie prikazu
 		//vystup.appendText("\nSlovo " + vstupniSlovo.getText() + " ve větě: " + vstupniVeta.getText() +" znamená " + vyznamSlova.getText() + "\n\n");
 		vystup.appendText("\nSlovo " + "'" + vstupniSlovo.getText() +"'" + " ve větě: '" + vstupniVeta.getText() +"' znamená '" + vyznamSlova.getText() + "'\n\n");
@@ -436,7 +443,8 @@ public class StrojoveUceniController extends GridPane implements Observer {
             }//end finally try
         }//end try
         System.out.println("Goodbye!");
-    }//end pripojDatabzi
+    }//end pripojDatabazi
+	}// end podminky
 	
 	public boolean vyznamExistuje(String vstupniText) {
 		String testovaciVypis = "";
