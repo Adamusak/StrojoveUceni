@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
-import org.hamcrest.core.IsNull;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -23,7 +20,6 @@ import StrojoveUceni.Logika.Slovo;
 import StrojoveUceni.Logika.Uzivatel;
 import StrojoveUceni.Logika.Veta;
 import StrojoveUceni.Logika.ZaznamOdpovedi;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -231,7 +227,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		//zadani textu zadaneho slova do historie prikazu
 		//vystup.appendText("\nSlovo " + vstupniSlovo.getText() + " ve větě: " + vstupniVeta.getText() +" znamená " + vyznamSlova.getText() + "\n\n");
 		vystup.appendText("\nSlovo " + "'" + vstupniSlovo.getText() +"'" + " ve větě: '" + vstupniVeta.getText() +"' znamená '" + vyznamSlova.getText() + "'\n\n");
-		
+		}// end podminky
 		//pripojeni k databazi
 		Connection conn = null;
         Statement stmt = null;
@@ -444,7 +440,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
         }//end try
         System.out.println("Goodbye!");
     }//end pripojDatabazi
-	}// end podminky
+	
 	
 	public boolean vyznamExistuje(String vstupniText) {
 		String testovaciVypis = "";
@@ -481,6 +477,10 @@ public class StrojoveUceniController extends GridPane implements Observer {
             
             //STEP 4: Execute a query
             stmt = conn.createStatement();
+            if (vyznamSlova.getText() == null | vyznamSlova.getText().length() == 0) {
+    			//nic nenahrávat
+    		}
+            else {
             String sql = "INSERT INTO ZaznamOdpovedi (ID_Zaznam, ID_Uzivatel, ID_Slovo, ID_Veta, Vyznam) VALUES (" + (maxZaznam + 1) + ", " + maxUzivatel + ", " + (aktualniSlovo) + ", " + (aktualniVeta) + ", " + "'" + (vyznamSlova.getText() + "'") + ")";
             System.out.println(sql);
             stmt.executeQuery(sql);
@@ -492,7 +492,7 @@ public class StrojoveUceniController extends GridPane implements Observer {
             
             //nacteni dalsiho slova/vety
             //this.dalsi();
-            
+            }
         } catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
@@ -639,12 +639,11 @@ public class StrojoveUceniController extends GridPane implements Observer {
 
 		
 		
-		/* Naplň listview a významy slov - do produkce odstranit */
-		//seznamSlov.getItems().addAll("dignissim","lacus","consectetur","euismod","dolor");
+		/* Naplň listview s významy slov*/
 		vstupniSlovo.setText(slovo.getSlovo());
 		vstupniVeta.setText(veta.getVeta());
 		seznamSlov.getItems().addAll(vyznam);
-		vystup.appendText("\nSlovo " + "'" + slovo.getSlovo() +"'" + " ve větě: '" + veta.getVeta() +"' znamená '" + vyznam.get(0) + "'\n\n");
+		//vystup.appendText("\nSlovo " + "'" + slovo.getSlovo() +"'" + " ve větě: '" + veta.getVeta() +"' znamená '" + vyznam.get(0) + "'\n\n");
 		/* Nastavení animace pro menu ikony */
 		HamburgerBasicCloseTransition transition = new HamburgerBasicCloseTransition(hamburger);
 		transition.setRate(-1);
