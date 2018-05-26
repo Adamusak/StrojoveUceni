@@ -94,6 +94,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
     /**
      *  Provádí načetní prvotního slova, jeho významů a věty z databáze
      *  Tyto hodnoty pak načte do frontendu
+     *  @author     Martin Veselý, Adam Novák
+     *  @version    2.0
+     *  @created    květen 2018
      *
      */
     public void pripojDatabzi() {
@@ -226,6 +229,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	
     /**
      *  Metoda načítá z databáze další slovo, případně vetu a načte jí do frontendu
+     *  @author     Martin Veselý, Adam Novák
+     *  @version    2.0
+     *  @created    květen 2018
      *
      */
     public void dalsi() {
@@ -453,6 +459,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
     /**
      *  Porovnává význam slova zadaný uživatelem s již existujícími význami tohoto slova
      *  v databázi. 
+     *  @author     Martin Veselý
+     *  @version    2.0
+     *  @created    květen 2018
      *
      *@param parametry - jako  parametr obsahuje text uživatelem zadaného významu
      *@return true / false podle toho, zdali uživatelem zadaný váznam již existuje v dazabízi
@@ -479,6 +488,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	
 	/**
      *  Ukládá nový význam daného slova do databáze a poté volá metodu dalsi()
+     *  @author     Martin Veselý
+     *  @version    2.0
+     *  @created    květen 2018
      */
 	public void ulozVyznam() {
 		Connection conn = null;
@@ -544,6 +556,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	/**
 	 * metoda čte příkaz ze vstupního textového. Pokud už daný význam existuje, volá metodu dalsi(),
 	 * pokud ne, vola metodu ulozVyznam()
+	 *  @author     Martin Veselý
+     *  @version    2.0
+     *  @created    květen 2018
 	 */
 	@FXML
 	public void odesliVyznam() {
@@ -558,6 +573,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	/**
 	 * metoda pro výběr již existujícího významu
 	 * pokud není výběr nulový, zavolá metodu dalsi()
+	 *  @author     Martin Veselý, Adam Novák
+     *  @version    2.0
+     *  @created    květen 2018
 	 */
 	@FXML
 	public void Vyber() {
@@ -575,6 +593,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	
 	/**
 	 * metoda pro zmenu barevného schématu
+	 *  @author     Adam Novák
+     *  @version    2.0
+     *  @created    květen 2018
 	 */
 	@FXML
 	public void ZmenaSchema() {
@@ -648,6 +669,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	/**
 	 * Metoda souží pro předání objektu se spuštěnou hrou kontroleru a zobrazí
 	 * první slovo, jeho váznam a větu z databáze
+	 *  @author     Martin Veselý, Adam Novák
+     *  @version    2.0
+     *  @created    květen 2018
 	 * 
 	 * @param objekt
 	 *            spuštěné hry
