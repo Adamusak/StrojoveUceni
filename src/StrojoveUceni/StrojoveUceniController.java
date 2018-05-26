@@ -91,7 +91,12 @@ public class StrojoveUceniController extends GridPane implements Observer {
     static final String USER = "StrojoveUceni";
     static final String PASS = "StrojoveUceni";
 
-	public void pripojDatabzi() {
+    /**
+     *  Provádí načetní prvotního slova, jeho významů a věty z databáze
+     *  Tyto hodnoty pak načte do frontendu
+     *
+     */
+    public void pripojDatabzi() {
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -219,7 +224,11 @@ public class StrojoveUceniController extends GridPane implements Observer {
         System.out.println("Goodbye!");
     }//end pripojDatabzi
 	
-	public void dalsi() {
+    /**
+     *  Metoda načítá z databáze další slovo, případně vetu a načte jí do frontendu
+     *
+     */
+    public void dalsi() {
 		if (vyznamSlova.getText() == null | vyznamSlova.getText().length() == 0) {
 			vystup.appendText("\nSlovo " + "'" + vstupniSlovo.getText() +"'" + " ve větě: '" + vstupniVeta.getText() +" bylo přeskočeno.\n\n");
 		}
@@ -441,7 +450,13 @@ public class StrojoveUceniController extends GridPane implements Observer {
         System.out.println("Goodbye!");
     }//end pripojDatabazi
 	
-	
+    /**
+     *  Porovnává význam slova zadaný uživatelem s již existujícími význami tohoto slova
+     *  v databázi. 
+     *
+     *@param parametry - jako  parametr obsahuje text uživatelem zadaného významu
+     *@return true / false podle toho, zdali uživatelem zadaný váznam již existuje v dazabízi
+     */
 	public boolean vyznamExistuje(String vstupniText) {
 		String testovaciVypis = "";
 		for (int i = 0; i <= vyznam.size() - 1; i++) {
@@ -462,6 +477,9 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		return false;
 	}
 	
+	/**
+     *  Ukládá nový význam daného slova do databáze a poté volá metodu dalsi()
+     */
 	public void ulozVyznam() {
 		Connection conn = null;
         Statement stmt = null;
@@ -524,7 +542,8 @@ public class StrojoveUceniController extends GridPane implements Observer {
 	
 	
 	/**
-	 * metoda čte příkaz ze vstupního textového pole a zpracuje ho
+	 * metoda čte příkaz ze vstupního textového. Pokud už daný význam existuje, volá metodu dalsi(),
+	 * pokud ne, vola metodu ulozVyznam()
 	 */
 	@FXML
 	public void odesliVyznam() {
@@ -536,6 +555,10 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		}
 	}
 
+	/**
+	 * metoda pro výběr již existujícího významu
+	 * pokud není výběr nulový, zavolá metodu dalsi()
+	 */
 	@FXML
 	public void Vyber() {
 		/* Zpracovává příkaz při kliknutí na kontextové menu vyber */
@@ -549,6 +572,10 @@ public class StrojoveUceniController extends GridPane implements Observer {
 		}
 	}
 	
+	
+	/**
+	 * metoda pro zmenu barevného schématu
+	 */
 	@FXML
 	public void ZmenaSchema() {
 		/* Stisknutí tlačítka Změna vzhledu */
@@ -619,8 +646,8 @@ public class StrojoveUceniController extends GridPane implements Observer {
 
 
 	/**
-	 * Metoda bude soužit pro předání objektu se spuštěnou hrou kontroleru a zobrazí
-	 * stav hry v grafice.
+	 * Metoda souží pro předání objektu se spuštěnou hrou kontroleru a zobrazí
+	 * první slovo, jeho váznam a větu z databáze
 	 * 
 	 * @param objekt
 	 *            spuštěné hry
